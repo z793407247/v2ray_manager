@@ -146,8 +146,19 @@ check_install_v2ray_manager() {
   fi
 }
 
-#检测是否有项目工程
+#
+#
+#
+#
+#
+#
+# 开始安装
+_sys_language=$LANG
+if [ $_sys_language == 'en_US.UTF-8' ]; then
+  message 1 "if messages are error (or unintelligible) codes please install chinese language support >> yum install -y kde-l10n-Chinese"
+fi
 
+#检测是否有项目工程
 # 检测有没有v2ray进程
 _v2ray_pid=$(pgrep -f v2ray)
 
@@ -197,7 +208,11 @@ if [ -d /usr/local/etc/v2ray/v2ray_manager ]; then
 fi
 
 # 将管理器换个地方
+if [ ! -f /usr/local/etc/v2ray ]; then
+  mkdir /usr/local/etc/v2ray
+fi
 mv -f v2ray_manager /usr/local/etc/v2ray
+
 # 给管理器设置执行权限
 chmod -R +x /usr/local/etc/v2ray/v2ray_manager
 
