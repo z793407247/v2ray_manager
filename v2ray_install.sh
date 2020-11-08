@@ -211,6 +211,10 @@ fi
 if [ ! -f /usr/local/etc/v2ray ]; then
   mkdir /usr/local/etc/v2ray
 fi
+
+if [ -f /usr/local/etc/v2ray/v2ray_manager ]; then
+  rm -rf /usr/local/etc/v2ray/v2ray_manager
+fi
 mv -f v2ray_manager /usr/local/etc/v2ray
 
 # 给管理器设置执行权限
@@ -225,6 +229,7 @@ fi
 
 # 重写v2ray指令
 if [ -f /usr/local/etc/v2ray/v2ray_manager ]; then
+  message 1 "writing to .bashrc"
   cat >~/.bashrc <<-EOF
 			"v2ray /usr/local/etc/v2ray/v2ray_manager/src/v2ray_main.sh"
 		EOF
