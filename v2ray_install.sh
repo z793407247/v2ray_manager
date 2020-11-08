@@ -229,9 +229,9 @@ if [ $? == 0 ]; then
   } &
 fi
 wait
-message 1 "success excute!"
+
 # 重写v2ray指令
-if [ -f /usr/local/etc/v2ray/v2ray_manager ]; then
+if [ -d /usr/local/etc/v2ray/v2ray_manager ]; then
   message 1 "writing to .bashrc"
   cat >~/.bashrc <<-EOF
 			"v2ray /usr/local/etc/v2ray/v2ray_manager/src/v2ray_main.sh"
