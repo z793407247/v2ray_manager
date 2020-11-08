@@ -208,11 +208,11 @@ if [ -d /usr/local/etc/v2ray/v2ray_manager ]; then
 fi
 
 # 将管理器换个地方
-if [ ! -f /usr/local/etc/v2ray ]; then
+if [ ! -d /usr/local/etc/v2ray ]; then
   mkdir /usr/local/etc/v2ray
 fi
 
-if [ -f /usr/local/etc/v2ray/v2ray_manager ]; then
+if [ -d /usr/local/etc/v2ray/v2ray_manager ]; then
   rm -rf /usr/local/etc/v2ray/v2ray_manager
 fi
 mv -f v2ray_manager /usr/local/etc/v2ray
