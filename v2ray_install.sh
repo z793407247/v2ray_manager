@@ -184,6 +184,6 @@ fi
 
 # 重写v2ray指令
 if [ -d /usr/local/etc/v2ray/v2ray_menu.sh ]; then
-  cat >> /root/.bashrc < "v2ray /usr/local/etc/v2ray/v2ray_manager/src/v2ray_menu.sh"
+  cat >> /root/.bashrc < "v2ray /usr/local/etc/v2ray/v2ray_manager/src/v2ray_main.sh"
   source /root/.bashrc
 fi
