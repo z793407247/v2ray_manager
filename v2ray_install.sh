@@ -147,14 +147,17 @@ check_install_v2ray_manager() {
 }
 
 delete_v2ray_cmd() {
-  local _rc=sed -n "1,1p" ~/.bashrc
+  local _rc
+  _rc=$(sed -n "1,1p" ~/.bashrc)
   local line=1
-  while [[ -n $_rc ]]; do
+  while [[ -n "$_rc" ]]; do
     _rc=$(sed -n "${line},${line}p" ~/.bashrc)
     if [ "$_rc" == "v2ray*" ]; then
+      message 1 "delete ${_rc}"
       sed "${line}d"
     else
       line=${line+1}
+      message 1 "check next line ${line}"
     fi
   done
 }
