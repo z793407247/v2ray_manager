@@ -224,7 +224,7 @@ if [ $? == 0 ]; then
 fi
 
 # 重写v2ray指令
-if [ -d /usr/local/etc/v2ray/v2ray_menu.sh ]; then
+if [ -d /usr/local/etc/v2ray/v2ray_main.sh ]; then
   cat >~/.bashrc <<-EOF
 			"v2ray /usr/local/etc/v2ray/v2ray_manager/src/v2ray_main.sh"
 		EOF
