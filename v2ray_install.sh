@@ -224,7 +224,10 @@ check_install_curl
 if [ $? == 0 ]; then
   # 从官方下载install_release.sh
   curl -O https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh
-  bash install-release.sh
+  {
+    bash install-release.sh
+  }&
+
 fi
 
 # 重写v2ray指令
