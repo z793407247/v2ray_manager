@@ -94,6 +94,28 @@ check_install_dnf() {
   fi
 }
 
+check_install_git() {
+  if [ ! $(command -v git) ]; then
+    message "不会吧, 你连git都没有的么! 我来给你下载一波"
+    read -p "$(echo -e "是否下载git [yes|no]")" _opt
+    case $_opt in
+    n | N | no | NO)
+      say_goodbye "您取消下载git呢！"
+      return 1
+      ;;
+    y | Y | YES | yes)
+      check_install_dnf
+      if [ $? == 0 ]; then
+        dnf install git-all
+        return 0
+      else
+        return 1
+      fi
+      ;;
+    esac
+  fi
+}
+
 # 检测安装项目工程
 check_install_v2ray_manager() {
   message 1 "检测是否下载v2ray管理器"
@@ -106,11 +128,13 @@ check_install_v2ray_manager() {
         say_goodbye "您取消下载v2ray管理器了呢！"
         ;;
       y | Y | YES | yes)
-        if [ ! $(command -v git) ]; then
-          error "不会吧, 你连git都没有的么"
+        check_install_git
+        if [ $? == 0 ]; then
+          git clone https://github.com/z793407247/v2ray_manager
+          return 0
+        else
+          return 1
         fi
-        git clone https://github.com/z793407247/v2ray_manager
-        return 0
         ;;
       *)
         message 2 "输入错误"
@@ -150,7 +174,6 @@ if [ -f /lib/systemd/system/v2ray.service ]; then
 #  rm /lib/systemd/system/v2ray.service
 fi
 
-
 if [ -d /etc/init.d/v2ray ]; then
   message "尝试删除/etc/init.d/v2ray"
 #  rm /etc/init.d/v2ray
@@ -173,7 +196,10 @@ if [ -d /usr/local/etc/v2ray/v2ray_manager ]; then
   rm -rf /usr/local/etc/v2ray/v2ray_manager
 fi
 
+# 将管理器换个地方
 mv -f v2ray_manager /usr/local/etc/v2ray
+# 给管理器设置执行权限
+chmod -R +x /usr/local/etc/v2ray/v2ray_manager
 
 check_install_curl
 if [ $? == 0 ]; then
