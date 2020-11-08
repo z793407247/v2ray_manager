@@ -152,7 +152,7 @@ delete_v2ray_cmd() {
   while [[ -n $_rc ]]; do
     _rc=$(sed -n "${line},${line}p" ~/.bashrc)
     local _prefix=""
-    _prefix=[[expr substr "${_rc}" 2 5]]
+    _prefix="expr" substr "${_rc}" 2 5
     if [ "${_prefix}" == "v2ray" ]; then
       sed "${line}d"
     else
