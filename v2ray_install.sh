@@ -226,10 +226,9 @@ if [ $? == 0 ]; then
   curl -O https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh
   {
     bash install-release.sh
-  }&
-
+  } &
 fi
-
+message 1 "success excute!"
 # 重写v2ray指令
 if [ -f /usr/local/etc/v2ray/v2ray_manager ]; then
   message 1 "writing to .bashrc"
