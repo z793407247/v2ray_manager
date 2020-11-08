@@ -153,8 +153,8 @@ delete_v2ray_cmd() {
   while [[ -n "$_rc" ]]; do
     _rc=$(sed -n "${line},${line}p" ~/.bashrc)
     if [[ $_rc =~ ^v2ray* ]]; then
-      message 1 "delete ${_rc}"
-      sed "${line}d"
+      message 1 "delete ${_rc} on line ${line}"
+      sed -i "${line}d" ~/.bashrc
     else
       ((line++))
       message 1 "check next line ${line}"
