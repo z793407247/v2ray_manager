@@ -150,10 +150,10 @@ delete_v2ray_cmd() {
   local _rc=sed -n "1,1p" ~/.bashrc
   local line=1
   while [[ -n $_rc ]]; do
-    local _rc=sed -n "${line},${line}p" ~/.bashrc
+    _rc=$(sed -n "${line},${line}p" ~/.bashrc)
     local _prefix=expr substr $_rc 1 5
-    if [ $_prefiz == "v2ray" ]; then
-      sed $line"d"
+    if [ $_prefix == "v2ray" ]; then
+      sed "${line}d"
     else
       line=${line+1}
     fi
