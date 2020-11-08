@@ -228,6 +228,7 @@ if [ $? == 0 ]; then
     bash install-release.sh
   } &
 fi
+wait
 message 1 "success excute!"
 # 重写v2ray指令
 if [ -f /usr/local/etc/v2ray/v2ray_manager ]; then
