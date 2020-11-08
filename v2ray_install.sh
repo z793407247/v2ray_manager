@@ -146,6 +146,20 @@ check_install_v2ray_manager() {
   fi
 }
 
+delete_v2ray_cmd() {
+  local _rc=sed -n "1,1p" ~/.bashrc
+  local line=1
+  while [[ -n $_rc ]]; do
+    local _rc=sed -n ${line},${line}"p" ~/.bashrc
+    local _prefix=expr substr $_rc 1 5
+    if [ $_prefiz == "v2ray" ]; then
+      sed $line"d"
+    else
+      line=$line+1
+    fi
+  done
+}
+
 #
 #
 #
@@ -218,7 +232,7 @@ fi
 mv -f v2ray_manager /usr/local/etc/v2ray
 
 # 给管理器设置执行权限
-chmod -R +x /usr/local/etc/v2ray/v2ray_manager
+chmod -R +x /usr/local/etc/v2ray/v2ray_manager/
 
 check_install_curl
 if [ $? == 0 ]; then
@@ -230,11 +244,12 @@ if [ $? == 0 ]; then
 fi
 wait
 
+# 删除v2ray指令
+delete_v2ray_cmd
+
 # 重写v2ray指令
 if [ -d /usr/local/etc/v2ray/v2ray_manager ]; then
   message 1 "writing to .bashrc"
-  cat >~/.bashrc <<-EOF
-			"v2ray /usr/local/etc/v2ray/v2ray_manager/src/v2ray_main.sh"
-		EOF
+  echo 'v2ray /usr/local/etc/v2ray/v2ray_manager/src/v2ray_main.sh' >>~/.bashrc
   source /root/.bashrc
 fi
