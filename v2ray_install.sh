@@ -164,7 +164,7 @@ _v2ray_pid=$(pgrep -f v2ray)
 
 if [[ -n $_v2ray_pid ]]; then
   message 1 "当前有v2ray进程正在运行, 我帮你关掉了!"
-#  kill -9 $__v2ray_pid
+  kill -9 $__v2ray_pid
 fi
 
 # 尝试删除原来安装的v2ray 可能删除不完全 需要自己处理一下
@@ -172,28 +172,28 @@ message 2 "安装v2ray需要删除旧版本, 我这边试着帮你删掉, 删不
 
 if [ -d /usr/bin/v2ray/ ]; then
   message "尝试删除/usr/bin/v2ray/"
-#  rm -r /usr/bin/v2ray/
+  rm -r /usr/bin/v2ray/
 fi
 
 if [ -f /etc/systemd/system/v2ray.service ]; then
   message "尝试删除/etc/systemd/system/v2ray.service"
-#  rm /etc/systemd/system/v2ray.service
+  rm /etc/systemd/system/v2ray.service
 fi
 
 if [ -f /lib/systemd/system/v2ray.service ]; then
   message "尝试删除/lib/systemd/system/v2ray.service"
-#  rm /lib/systemd/system/v2ray.service
+  rm /lib/systemd/system/v2ray.service
 fi
 
 if [ -d /etc/init.d/v2ray ]; then
   message "尝试删除/etc/init.d/v2ray"
-#  rm /etc/init.d/v2ray
+  rm /etc/init.d/v2ray
 fi
 
 # 尝试移动旧配置文件
 if [ -f /etc/v2ray ]; then
   message "尝试移动旧配置文件"
-#  mv -f /etc/v2ray/ /usr/local/etc/
+  mv -f /etc/v2ray/ /usr/local/etc/
 fi
 
 # 开始安装v2ray
@@ -224,7 +224,7 @@ if [ $? == 0 ]; then
 fi
 
 # 重写v2ray指令
-if [ -d /usr/local/etc/v2ray/v2ray_main.sh ]; then
+if [ -f /usr/local/etc/v2ray/v2ray_manager ]; then
   cat >~/.bashrc <<-EOF
 			"v2ray /usr/local/etc/v2ray/v2ray_manager/src/v2ray_main.sh"
 		EOF
