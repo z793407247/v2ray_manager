@@ -152,7 +152,7 @@ delete_v2ray_cmd() {
   local line=1
   while [[ -n "$_rc" ]]; do
     _rc=$(sed -n "${line},${line}p" ~/.bashrc)
-    if [[ $_rc =~ ^v2ray* ]]; then
+    if [[ $_rc =~ ^"alias v2ray"* ]]; then
       message 1 "delete ${_rc} on line ${line}"
       sed -i "${line}d" ~/.bashrc
     else
