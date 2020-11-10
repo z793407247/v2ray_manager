@@ -1,4 +1,5 @@
 MessageType_None='None'
+MessageType_Info='Info'
 MessageType_Log='Log'
 MessageType_Warning='Warning'
 MessageType_Error='Error'
@@ -19,6 +20,9 @@ show_message() {
   $MessageType_Log)
     do_show_message $green$content
     ;;
+  $MessageType_Info)
+    do_show_message $green$content
+    ;;
   $MessageType_Warning)
     do_show_message $yellow$content
     ;;
@@ -33,16 +37,16 @@ Log(){
   content=$2
   case $type in
   'i' | 'I')
-    show_message $MessageType_None $content
+    echo -e date +%Y_%m_%d"${MessageType_None}${content}"
     ;;
   'l' | 'L')
-    show_message $MessageType_Log $content
+    echo -e date +%Y_%m_%d"${MessageType_Log}${content}"
     ;;
   'w' | 'W')
-    show_message $MessageType_Warning $content
+    echo -e date +%Y_%m_%d"${MessageType_Warning}${content}"
     ;;
   'e' | 'E')
-    show_message $MessageType_Error $content
+    echo -e date +%Y_%m_%d"${MessageType_Error}${content}"
   ;;
   esac
 }

@@ -24,11 +24,43 @@ load_script message_helper # 消息提示
 _args=$1
 _param=$2
 
-case $_args in
-'menu' | 'Menu' | 'MENU')
-  load_script menu $_param
-  ;;
-'info' | 'Info' | 'INFO' | 'i' | 'I')
-  load_script info
-;;
-esac
+v2ray_help() {
+  local _help_menu=(
+    "输入v2ray mkurl 生成vmess链接"
+    "输入v2ray menu 查看功能目录"
+    "输入v2ray info 查看v2ray配置信息"
+  )
+
+  show_message
+  for (( i = 0; i < ${#_help_menu[*]-1}; i++ )); do
+      show_message "$MessageType_Info" "${_help_menu[i]}"
+  done
+}
+
+v2ray_init() {
+  Log "l" "开始初始化v2ray设置"
+
+}
+
+v2ray_main() {
+  case $_args in
+  'menu' | 'Menu' | 'MENU')
+    load_script menu
+    ;;
+  'info' | 'Info' | 'INFO' | 'i' | 'I')
+    load_script v2ray_info
+    ;;
+  'init' | 'INIT')
+    v2ray_init
+    ;;
+  'help' | 'h' | '-h')
+    v2ray_help
+    ;;
+  *)
+    load_script menu
+    ;;
+  esac
+
+}
+
+v2ray_main

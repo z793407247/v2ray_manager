@@ -169,89 +169,96 @@ delete_v2ray_cmd() {
 #
 #
 # 开始安装
-_sys_language=$LANG
-if [ $_sys_language == 'en_US.UTF-8' ]; then
-  message 1 "if messages are error (or unintelligible) codes please install chinese language support >> yum install -y kde-l10n-Chinese"
-fi
+install_main() {
+  _sys_language=$LANG
+  if [ $_sys_language == 'en_US.UTF-8' ]; then
+    message 1 "if messages are error (or unintelligible) codes please install chinese language support >> yum install -y kde-l10n-Chinese"
+  fi
 
-#检测是否有项目工程
-# 检测有没有v2ray进程
-_v2ray_pid=$(pgrep -f v2ray)
+  #检测是否有项目工程
+  # 检测有没有v2ray进程
+  _v2ray_pid=$(pgrep -f v2ray)
 
-if [[ -n $_v2ray_pid ]]; then
-  message 1 "当前有v2ray进程正在运行, 我帮你关掉了!"
-  kill -9 $__v2ray_pid
-fi
+  if [[ -n $_v2ray_pid ]]; then
+    message 1 "当前有v2ray进程正在运行, 我帮你关掉了!"
+    kill -9 $__v2ray_pid
+  fi
 
-# 尝试删除原来安装的v2ray 可能删除不完全 需要自己处理一下
-message 2 "安装v2ray需要删除旧版本, 我这边试着帮你删掉, 删不掉需要自己搞定了!"
+  # 尝试删除原来安装的v2ray 可能删除不完全 需要自己处理一下
+  message 2 "安装v2ray需要删除旧版本, 我这边试着帮你删掉, 删不掉需要自己搞定了!"
 
-if [ -d /usr/bin/v2ray/ ]; then
-  message "尝试删除/usr/bin/v2ray/"
-  rm -r /usr/bin/v2ray/
-fi
+  if [ -d /usr/bin/v2ray/ ]; then
+    message "尝试删除/usr/bin/v2ray/"
+    rm -r /usr/bin/v2ray/
+  fi
 
-if [ -f /etc/systemd/system/v2ray.service ]; then
-  message "尝试删除/etc/systemd/system/v2ray.service"
-  rm /etc/systemd/system/v2ray.service
-fi
+  if [ -f /etc/systemd/system/v2ray.service ]; then
+    message "尝试删除/etc/systemd/system/v2ray.service"
+    rm /etc/systemd/system/v2ray.service
+  fi
 
-if [ -f /lib/systemd/system/v2ray.service ]; then
-  message "尝试删除/lib/systemd/system/v2ray.service"
-  rm /lib/systemd/system/v2ray.service
-fi
+  if [ -f /lib/systemd/system/v2ray.service ]; then
+    message "尝试删除/lib/systemd/system/v2ray.service"
+    rm /lib/systemd/system/v2ray.service
+  fi
 
-if [ -d /etc/init.d/v2ray ]; then
-  message "尝试删除/etc/init.d/v2ray"
-  rm /etc/init.d/v2ray
-fi
+  if [ -d /etc/init.d/v2ray ]; then
+    message "尝试删除/etc/init.d/v2ray"
+    rm /etc/init.d/v2ray
+  fi
 
-# 尝试移动旧配置文件
-if [ -f /etc/v2ray ]; then
-  message "尝试移动旧配置文件"
-  mv -f /etc/v2ray/ /usr/local/etc/
-fi
+  # 尝试移动旧配置文件
+  if [ -f /etc/v2ray ]; then
+    message "尝试移动旧配置文件"
+    mv -f /etc/v2ray/ /usr/local/etc/
+  fi
 
-# 开始安装v2ray
-check_install_v2ray_manager
-if [ $? != 0 ]; then
-  error "v2ray管理器下载失败了呢"
-fi
+  # 开始安装v2ray
+  check_install_v2ray_manager
+  if [ $? != 0 ]; then
+    error "v2ray管理器下载失败了呢"
+  fi
 
-# 将管理器复制到合适的地方
-if [ -d /usr/local/etc/v2ray/v2ray_manager ]; then
-  rm -rf /usr/local/etc/v2ray/v2ray_manager
-fi
+  # 将管理器复制到合适的地方
+  if [ -d /usr/local/etc/v2ray/v2ray_manager ]; then
+    rm -rf /usr/local/etc/v2ray/v2ray_manager
+  fi
 
-# 将管理器换个地方
-if [ ! -d /usr/local/etc/v2ray ]; then
-  mkdir /usr/local/etc/v2ray
-fi
+  # 将管理器换个地方
+  if [ ! -d /usr/local/etc/v2ray ]; then
+    mkdir /usr/local/etc/v2ray
+  fi
 
-if [ -d /usr/local/etc/v2ray/v2ray_manager ]; then
-  rm -rf /usr/local/etc/v2ray/v2ray_manager
-fi
-mv -f v2ray_manager /usr/local/etc/v2ray
+  if [ -d /usr/local/etc/v2ray/v2ray_manager ]; then
+    rm -rf /usr/local/etc/v2ray/v2ray_manager
+  fi
+  mv -f v2ray_manager /usr/local/etc/v2ray
 
-# 给管理器设置执行权限
-chmod -R +x /usr/local/etc/v2ray/v2ray_manager/
+  # 给管理器设置执行权限
+  chmod -R +x /usr/local/etc/v2ray/v2ray_manager/
 
-check_install_curl
-if [ $? == 0 ]; then
-  # 从官方下载install_release.sh
-  curl -O https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh
-  {
-    bash install-release.sh
-  } &
-fi
-wait
+  check_install_curl
+  if [ $? == 0 ]; then
+    # 从官方下载install_release.sh
+    curl -O https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh
+    {
+      bash install-release.sh
+    } &
+  fi
+  wait
 
-# 删除v2ray指令
-delete_v2ray_cmd
+  # 删除v2ray指令
+  delete_v2ray_cmd
 
-# 重写v2ray指令
-if [ -d /usr/local/etc/v2ray/v2ray_manager ]; then
-  message 1 "writing to .bashrc"
-  echo 'v2ray /usr/local/etc/v2ray/v2ray_manager/src/v2ray_main.sh' >>~/.bashrc
-  source /root/.bashrc
-fi
+  # 重写v2ray指令
+  if [ -d /usr/local/etc/v2ray/v2ray_manager ]; then
+    message 1 "writing to .bashrc"
+    echo 'alias v2ray /usr/local/etc/v2ray/v2ray_manager/src/v2ray_main.sh' >>~/.bashrc
+    source /root/.bashrc
+  fi
+
+  # 开始初始化设置
+  v2ray init
+}
+
+install_main
