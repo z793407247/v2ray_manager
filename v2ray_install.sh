@@ -252,8 +252,7 @@ install_main() {
 
   # 重写v2ray指令
   if [ -d /usr/local/etc/v2ray/v2ray_manager ]; then
-    message 1 "writing to .bashrc"
-    echo 'alias v2ray /usr/local/etc/v2ray/v2ray_manager/src/v2ray_main.sh' >>~/.bashrc
+    echo "alias v2ray='/usr/local/etc/v2ray/v2ray_manager/src/v2ray_main.sh'" >>~/.bashrc
     source /root/.bashrc
   fi
 
