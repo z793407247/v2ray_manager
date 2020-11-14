@@ -1,4 +1,4 @@
-base_dir='/usr/local/etc/v2ray/v2ray_manager/src' # 资源目录
+base_dir='/usr/local/etc/v2ray/v2ray_manager/src/' # 资源目录
 
 # 加载脚本
 load_script() {

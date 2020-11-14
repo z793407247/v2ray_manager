@@ -219,10 +219,6 @@ install_main() {
     error "v2ray管理器下载失败了呢"
   fi
 
-  # 将管理器复制到合适的地方
-  if [ -d /usr/local/etc/v2ray/v2ray_manager ]; then
-    rm -rf /usr/local/etc/v2ray/v2ray_manager
-  fi
 
   # 将管理器换个地方
   if [ ! -d /usr/local/etc/v2ray ]; then
@@ -232,6 +228,8 @@ install_main() {
   if [ -d /usr/local/etc/v2ray/v2ray_manager ]; then
     rm -rf /usr/local/etc/v2ray/v2ray_manager
   fi
+
+  message "move v2ray_manager to /usr/local/etc/v2ray"
   mv -f v2ray_manager /usr/local/etc/v2ray
 
   # 给管理器设置执行权限
@@ -253,7 +251,7 @@ install_main() {
   # 重写v2ray指令
   if [ -d /usr/local/etc/v2ray/v2ray_manager ]; then
     echo "alias v2ray='/usr/local/etc/v2ray/v2ray_manager/src/v2ray_main.sh'" >>~/.bashrc
-    source /root/.bashrc
+    source ~/.bashrc
   fi
 
   # 开始初始化设置
